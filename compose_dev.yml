@@ -1,0 +1,40 @@
+services:
+  experimentone_api:
+    image: mcr.microsoft.com/dotnet/sdk:9.0
+    container_name: experitone_api
+    ports:
+      - "2570:2570"
+    environment:
+      - ASPNETCORE_URLS=http://+:2570
+      - DOTNET_USE_POLLING_FILE_WATCHER=true
+    volumes:
+      - ./experitone-api/experitone-api:/src
+    working_dir: /src
+    command: dotnet watch run --urls=http://+:2570
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.1.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./es_data:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:9.1.2
+    container_name: kibana
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+volumes:
+  es_data:
+    driver: local

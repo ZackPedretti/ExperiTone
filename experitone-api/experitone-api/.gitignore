@@ -1,0 +1,55 @@
+﻿# Build results
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# DotNet Core
+*.pidb
+*.mdb
+*.pdb
+*.exe
+*.dll
+*.app
+*.log
+
+# Publish output
+publish/
+
+# npm packages (if you have frontend code)
+node_modules/
+
+# Environment variables
+.env
+.env.local
+
+# Resharper
+_ReSharper*/
+
+# Test results
+TestResults/
+
+# Coverage files
+coverage/
+
+# IIS Express
+*.vs/
+
+# Azure DevOps
+*.azure-pipelines.yml
+
+# Temporary files
+*.tmp
+*.temp
+
+# Others
+*.DS_Store
+*.vscode/

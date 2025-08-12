@@ -1,0 +1,7 @@
+﻿services:
+  experitone_api:
+    image: experitone apiexperitoneapi
+    build:
+      context: .
+      dockerfile: ExperiTone API/Dockerfile
+

@@ -1,0 +1,28 @@
+meta {
+  name: put annotation
+  type: http
+  seq: 2
+}
+
+put {
+  url: http://localhost:2570/annotation
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": "26gDUjMxgXw",
+    "title": "Carousel",
+    "author": "Haken",
+    "description": "Provided to YouTube by InsideOutMusic",
+    "duration": 629,
+    "details": {
+      "startTimeStamp": 26,
+      "endTimeStamp": 34,
+      "title": "Switched to 7/8",
+      "description": "Switched from 13/16 to 7/8.",
+      "authorId": 0
+    }
+  }
+}
