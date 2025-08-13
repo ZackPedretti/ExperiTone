@@ -8,9 +8,13 @@ public static class AnnotationEndpoint
     {
         app.MapPut("/annotation", (Annotation annotation) =>
             {
+                var updatedAnnotation = annotation with
+                {
+                    Details = annotation.Details with { CreatedAt = DateTime.UtcNow, Votes = 0}
+                };
                 try
                 {
-                    searchEngine.PutAnnotation(annotation);
+                    searchEngine.PutAnnotation(updatedAnnotation);
                 }
                 catch(Exception ex)
                 {
@@ -18,7 +22,7 @@ public static class AnnotationEndpoint
                     return null;
                 }
 
-                return annotation;
+                return updatedAnnotation;
             })
             .WithName("PutAnnotation");
     }

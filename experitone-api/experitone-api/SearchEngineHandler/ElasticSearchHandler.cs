@@ -31,6 +31,8 @@ public class ElasticSearchHandler : ISearchEngineHandler
                             .Text(x => x.Details.Title)
                             .Text(x => x.Details.Description)
                             .Text(x => x.Details.AuthorId)
+                            .Date(x => x.Details.CreatedAt)
+                            .IntegerNumber(x => x.Details.Votes)
                         )
                     )
                 )
