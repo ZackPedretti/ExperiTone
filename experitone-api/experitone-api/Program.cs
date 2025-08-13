@@ -16,6 +16,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapAnnotationEndpoint();
+ISearchEngineHandler searchEngine = new ElasticSearchHandler("http://elasticsearch:9200", null);
+
+app.MapAnnotationEndpoint(searchEngine);
 
 app.Run();
