@@ -56,18 +56,27 @@ public class ElasticSearchHandler : ISearchEngineHandler
         InitializeIndex().GetAwaiter().GetResult();
     }
 
-    public void PutAnnotation()
+    public void PutAnnotation(Annotation annotation)
     {
-        throw new NotImplementedException();
+        if (!Ready) return;
+        
+        var response = _client.IndexAsync(annotation, i => i.Index(IndexName)).GetAwaiter().GetResult();
+
+        if (!response.IsValidResponse)
+        {
+            throw new Exception($"Failed to index annotation: {response.ElasticsearchServerError}");
+        }
     }
 
-    public Annotation[] GetAnnotations(string? query, int? offset, int? limit)
+    public Annotation[]? GetAnnotations(string? query, int? offset, int? limit)
     {
+        if (!Ready) return null;
         throw new NotImplementedException();
     }
 
     public void DeleteAnnotation(Annotation annotation)
     {
+        if (!Ready) return;
         throw new NotImplementedException();
     }
 }

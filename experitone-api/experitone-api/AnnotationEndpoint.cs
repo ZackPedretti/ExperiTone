@@ -8,6 +8,16 @@ public static class AnnotationEndpoint
     {
         app.MapPut("/annotation", (Annotation annotation) =>
             {
+                try
+                {
+                    searchEngine.PutAnnotation(annotation);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return null;
+                }
+
                 return annotation;
             })
             .WithName("PutAnnotation");
