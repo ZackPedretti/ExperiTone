@@ -103,6 +103,11 @@ public class ElasticSearchHandler : ISearchEngineHandler
         throw new NotImplementedException();
     }
 
+    public Song[]? GetSong(string query, int? offset, int? limit)
+    {
+        throw new NotImplementedException();
+    }
+
     public void DeleteAnnotation(Annotation annotation)
     {
         if (!_ready) return;

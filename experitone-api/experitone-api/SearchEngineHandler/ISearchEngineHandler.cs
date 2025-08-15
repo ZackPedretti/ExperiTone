@@ -9,5 +9,6 @@ public interface ISearchEngineHandler
     Annotation[]? GetAnnotationsOfSong(string songId, int? offset, int? limit);
     Song[]? GetRecentlyAnnotatedSongs(int? offset, int? limit);
     Song[]? GetMostAnnotatedSongs(int? offset, int? limit);
+    Song[]? GetSong(string query, int? offset, int? limit);
     void DeleteAnnotation(Annotation annotation);
 }
