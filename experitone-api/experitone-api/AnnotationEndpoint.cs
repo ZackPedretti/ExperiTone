@@ -45,7 +45,7 @@ public static class AnnotationEndpoint
             {
                 try
                 {
-                    return searchEngine.GetAnnotationsOfSong(videoId, null, null);
+                    return searchEngine.GetAnnotationsOfSong(videoId, offset, limit);
                 }
                 catch (Exception ex)
                 {

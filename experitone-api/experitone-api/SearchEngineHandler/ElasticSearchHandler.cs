@@ -99,7 +99,8 @@ public class ElasticSearchHandler : ISearchEngineHandler
                     .Field(f => f.VideoId)
                     .Value(videoId)
                 ))
-                .Size(100)
+                .From(offset ?? 0)
+                .Size(limit ?? 100)
         ).GetAwaiter().GetResult();
 
         if (!response.IsValidResponse)
