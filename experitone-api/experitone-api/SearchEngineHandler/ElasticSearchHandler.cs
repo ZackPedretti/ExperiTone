@@ -13,13 +13,16 @@ public class ElasticSearchHandler : ISearchEngineHandler
     {
         var existsResponse = await _client.Indices.ExistsAsync(IndexName);
         if (existsResponse.Exists)
+        {
+            _ready = true;
             return;
+        }
 
         var createResponse = await _client.Indices.CreateAsync<Annotation>(index => index
             .Index(IndexName)
             .Mappings(mappings => mappings
                 .Properties(properties => properties
-                    .Text(x => x.VideoId)
+                    .Keyword(x => x.VideoId)
                     .Text(x => x.Title)
                     .Text(x => x.Author)
                     .Text(x => x.Description)
@@ -88,9 +91,21 @@ public class ElasticSearchHandler : ISearchEngineHandler
         return response.Source;
     }
 
-    public Annotation[]? GetAnnotationsOfSong(string songId, int? offset, int? limit)
+    public Annotation[]? GetAnnotationsOfSong(string videoId, int? offset, int? limit)
     {
-        throw new NotImplementedException();
+        var response = _client.SearchAsync<Annotation>(s => s
+                .Indices(IndexName)
+                .Query(q => q.Term(t => t
+                    .Field(f => f.VideoId)
+                    .Value(videoId)
+                ))
+                .Size(100)
+        ).GetAwaiter().GetResult();
+
+        if (!response.IsValidResponse)
+            throw new Exception($"Failed to search annotations: {response.ElasticsearchServerError}");
+
+        return response.Documents.ToArray();
     }
 
     public Song[]? GetRecentlyAnnotatedSongs(int? offset, int? limit)

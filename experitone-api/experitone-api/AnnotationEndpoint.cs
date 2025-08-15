@@ -43,7 +43,15 @@ public static class AnnotationEndpoint
         
         app.MapGet("/annotations_of_song", (string videoId, int? offset, int? limit) =>
             {
-                
+                try
+                {
+                    return searchEngine.GetAnnotationsOfSong(videoId, null, null);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return [];
+                }
             })
             .WithName("GetAnnotationsOfSong");
         
