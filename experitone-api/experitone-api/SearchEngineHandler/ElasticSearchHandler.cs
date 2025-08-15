@@ -1,4 +1,5 @@
-﻿using experitone_api.Entities;
+﻿using System.Text.Json;
+using experitone_api.Entities;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
 namespace experitone_api;
@@ -6,7 +7,7 @@ namespace experitone_api;
 public class ElasticSearchHandler : ISearchEngineHandler
 {
     private readonly ElasticsearchClient _client;
-    private bool _ready = false;
+    private bool _ready;
     private const string IndexName = "annotations";
 
     private async Task InitializeIndex()
@@ -91,7 +92,7 @@ public class ElasticSearchHandler : ISearchEngineHandler
         return response.Source;
     }
 
-    public Annotation[]? GetAnnotationsOfSong(string videoId, int? offset, int? limit)
+    public Annotation[] GetAnnotationsOfSong(string videoId, int? offset, int? limit)
     {
         var response = _client.SearchAsync<Annotation>(s => s
                 .Indices(IndexName)
@@ -104,24 +105,95 @@ public class ElasticSearchHandler : ISearchEngineHandler
         ).GetAwaiter().GetResult();
 
         if (!response.IsValidResponse)
+        {
             throw new Exception($"Failed to search annotations: {response.ElasticsearchServerError}");
+        }
 
         return response.Documents.ToArray();
     }
 
-    public Song[]? GetRecentlyAnnotatedSongs(int? offset, int? limit)
+    public Song[] GetRecentlyAnnotatedSongs(int? offset, int? limit)
     {
         throw new NotImplementedException();
     }
 
-    public Song[]? GetMostAnnotatedSongs(int? offset, int? limit)
+    public Song[] GetMostAnnotatedSongs(int? offset, int? limit)
     {
         throw new NotImplementedException();
     }
 
-    public Song[]? GetSong(string query, int? offset, int? limit)
+    public Song?[]? SearchSong(string query, int? offset, int? limit)
     {
-        throw new NotImplementedException();
+        if (!_ready) throw new Exception("ElasticSearch is not ready");
+
+        var response = _client.SearchAsync<Annotation>(s => s
+            .Indices(IndexName)
+            .Size(0)
+            .Query(q => q
+                .MultiMatch(m => m
+                    .Query(query)
+                    .Fields(
+                        f => f.VideoId,
+                        f => f.Title,
+                        f => f.Author,
+                        f => f.Description,
+                        f => f.Details.Title,
+                        f => f.Details.Description
+                    )
+                )
+            )
+            .Aggregations(aggregations => aggregations
+                .Add("song", aggregation => aggregation
+                    .Terms(terms => terms
+                        .Field(f => f.VideoId)
+                    )
+                    .Aggregations(agg => agg
+                        .Add("top_annotation", top => top
+                            .TopHits(th => th
+                                .Size(1)
+                            )
+                        )
+                    )
+                )
+            )
+            .Size(limit ?? 100)
+        ).GetAwaiter().GetResult();
+
+        if (!response.IsValidResponse)
+        {
+            throw new Exception($"Failed to search songs: {response.ElasticsearchServerError}");
+        }
+
+        Song?[]? songs = response.Aggregations?.GetStringTerms("song")
+            ?.Buckets
+            .Select(b =>
+            {
+                var topHitsAgg = b.Aggregations?.GetTopHits("top_annotation");
+                var topHit = topHitsAgg?.Hits.Hits.FirstOrDefault();
+                if (topHit?.Source is JsonElement json)
+                {
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    var annotation = JsonSerializer.Deserialize<Annotation>(json.GetRawText(), options);
+                    if (annotation != null)
+                    {
+                        return new Song(
+                            annotation.VideoId,
+                            annotation.Title,
+                            annotation.Author,
+                            annotation.Description,
+                            annotation.Duration
+                        );
+                    }
+                }
+                return null;
+            })
+            .Where(s => s != null)
+            .ToArray();
+
+        return songs;
     }
 
     public void DeleteAnnotation(Annotation annotation)

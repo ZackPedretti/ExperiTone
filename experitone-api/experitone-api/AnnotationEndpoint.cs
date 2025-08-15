@@ -55,6 +55,20 @@ public static class AnnotationEndpoint
             })
             .WithName("GetAnnotationsOfSong");
         
+        app.MapGet("/song", (string query, int? offset, int? limit) =>
+            {
+                try
+                {
+                    return searchEngine.SearchSong(query, 0, 100);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return [];
+                }
+            })
+            .WithName("SearchSong");
+        
         app.MapGet("/recent", (int? offset, int? limit) =>
             {
                 
