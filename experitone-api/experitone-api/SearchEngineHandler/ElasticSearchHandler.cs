@@ -6,7 +6,7 @@ namespace experitone_api;
 public class ElasticSearchHandler : ISearchEngineHandler
 {
     private readonly ElasticsearchClient _client;
-    public bool Ready = false;
+    private bool _ready = false;
     private const string IndexName = "annotations";
 
     private async Task InitializeIndex()
@@ -26,6 +26,7 @@ public class ElasticSearchHandler : ISearchEngineHandler
                     .IntegerNumber(x => x.Duration)
                     .Object(o => o.Details, objConfig => objConfig
                         .Properties(p => p
+                            .Keyword(x => x.Details.AnnotationId)
                             .IntegerNumber(x => x.Details.StartTimestamp)
                             .IntegerNumber(x => x.Details.EndTimestamp)
                             .Text(x => x.Details.Title)
@@ -44,7 +45,7 @@ public class ElasticSearchHandler : ISearchEngineHandler
             throw new Exception($"Error creating index: {createResponse.ElasticsearchServerError}");
         }
 
-        Ready = true;
+        _ready = true;
     }
     
     public ElasticSearchHandler(string url, string? apiKey)
@@ -60,9 +61,12 @@ public class ElasticSearchHandler : ISearchEngineHandler
 
     public void PutAnnotation(Annotation annotation)
     {
-        if (!Ready) return;
+        if (!_ready) return;
         
-        var response = _client.IndexAsync(annotation, i => i.Index(IndexName)).GetAwaiter().GetResult();
+        var response = _client.IndexAsync(annotation, i => i
+            .Index(IndexName)
+            .Id(annotation.Details.AnnotationId)
+        ).GetAwaiter().GetResult();
 
         if (!response.IsValidResponse)
         {
@@ -70,15 +74,38 @@ public class ElasticSearchHandler : ISearchEngineHandler
         }
     }
 
-    public Annotation[]? GetAnnotations(string? query, int? offset, int? limit)
+    public Annotation? GetAnnotation(Guid annotationId)
     {
-        if (!Ready) return null;
+        if (!_ready) throw new Exception("ElasticSearch is not ready");
+        var response = _client.GetAsync<Annotation>(annotationId.ToString(), g => g.Index(IndexName))
+            .GetAwaiter().GetResult();
+
+        if (!response.IsValidResponse)
+        {
+            throw new Exception($"Failed to get annotation: {response.ElasticsearchServerError}");
+        }
+
+        return response.Source;
+    }
+
+    public Annotation[]? GetAnnotationsOfSong(string songId, int? offset, int? limit)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Song[]? GetRecentlyAnnotatedSongs(int? offset, int? limit)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Song[]? GetMostAnnotatedSongs(int? offset, int? limit)
+    {
         throw new NotImplementedException();
     }
 
     public void DeleteAnnotation(Annotation annotation)
     {
-        if (!Ready) return;
+        if (!_ready) return;
         throw new NotImplementedException();
     }
 }

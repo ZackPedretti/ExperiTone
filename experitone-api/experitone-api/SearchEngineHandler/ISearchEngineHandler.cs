@@ -5,6 +5,9 @@ namespace experitone_api;
 public interface ISearchEngineHandler
 {
     void PutAnnotation(Annotation annotation);
-    Annotation[]? GetAnnotations(string? query, int? offset, int? limit);
+    Annotation? GetAnnotation(Guid annotationId);
+    Annotation[]? GetAnnotationsOfSong(string songId, int? offset, int? limit);
+    Song[]? GetRecentlyAnnotatedSongs(int? offset, int? limit);
+    Song[]? GetMostAnnotatedSongs(int? offset, int? limit);
     void DeleteAnnotation(Annotation annotation);
 }

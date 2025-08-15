@@ -1,3 +1,3 @@
 ﻿namespace experitone_api.Entities;
 
-public record AnnotationDetails(int StartTimestamp, int? EndTimestamp, string Title, string Description, string AuthorId, DateTime? CreatedAt, int? Votes);
+public record AnnotationDetails(Guid? AnnotationId, int StartTimestamp, int? EndTimestamp, string Title, string Description, Guid AuthorId, DateTime? CreatedAt, int? Votes);
