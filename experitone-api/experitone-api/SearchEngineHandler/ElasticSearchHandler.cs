@@ -9,6 +9,7 @@ public class ElasticSearchHandler : ISearchEngineHandler
     private readonly ElasticsearchClient _client;
     private bool _ready;
     private const string IndexName = "annotations";
+    private readonly JsonSerializerOptions _serializerOptions;
 
     private async Task InitializeIndex()
     {
@@ -60,6 +61,10 @@ public class ElasticSearchHandler : ISearchEngineHandler
             settings = settings.Authentication(new ApiKey(apiKey));
         }
         _client = new ElasticsearchClient(settings);
+        _serializerOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
         InitializeIndex().GetAwaiter().GetResult();
     }
 
@@ -170,23 +175,18 @@ public class ElasticSearchHandler : ISearchEngineHandler
             {
                 var topHitsAgg = b.Aggregations?.GetTopHits("top_annotation");
                 var topHit = topHitsAgg?.Hits.Hits.FirstOrDefault();
-                if (topHit?.Source is JsonElement json)
+                if (topHit?.Source is not JsonElement json) return null;
+                
+                var annotation = JsonSerializer.Deserialize<Annotation>(json.GetRawText(), _serializerOptions);
+                if (annotation != null)
                 {
-                    var options = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    };
-                    var annotation = JsonSerializer.Deserialize<Annotation>(json.GetRawText(), options);
-                    if (annotation != null)
-                    {
-                        return new Song(
-                            annotation.VideoId,
-                            annotation.Title,
-                            annotation.Author,
-                            annotation.Description,
-                            annotation.Duration
-                        );
-                    }
+                    return new Song(
+                        annotation.VideoId,
+                        annotation.Title,
+                        annotation.Author,
+                        annotation.Description,
+                        annotation.Duration
+                    );
                 }
                 return null;
             })
