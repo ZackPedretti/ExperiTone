@@ -59,7 +59,7 @@ public static class AnnotationEndpoint
             {
                 try
                 {
-                    return searchEngine.SearchSong(query, 0, 100);
+                    return searchEngine.SearchSong(query, offset, limit);
                 }
                 catch (Exception ex)
                 {
@@ -71,7 +71,15 @@ public static class AnnotationEndpoint
         
         app.MapGet("/recent", (int? offset, int? limit) =>
             {
-                
+                try
+                {
+                    return searchEngine.GetRecentlyAnnotatedSongs(offset, limit);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return [];
+                }
             })
             .WithName("GetRecentlyAnnotatedSongs");
         
