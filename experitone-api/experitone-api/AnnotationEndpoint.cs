@@ -41,6 +41,19 @@ public static class AnnotationEndpoint
             })
             .WithName("GetAnnotation");
         
+        app.MapDelete("/annotation", (Guid annotationId) =>
+        {
+            try
+            {
+                searchEngine.DeleteAnnotation(annotationId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        })
+        .WithName("DeleteAnnotation");
+        
         app.MapGet("/annotations_of_song", (string videoId, int? offset, int? limit) =>
             {
                 try

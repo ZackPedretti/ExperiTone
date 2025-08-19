@@ -236,10 +236,17 @@ public class ElasticSearchHandler : ISearchEngineHandler
         return songs;
     }
 
-    public void DeleteAnnotation(Annotation annotation)
+    public void DeleteAnnotation(Guid annotationId)
     {
         if (!_ready) throw  new Exception("ElasticSearch is not ready");
-        throw new NotImplementedException();
+        
+        var response = _client.DeleteAsync<Annotation>(annotationId, d => d.Index(IndexName))
+            .GetAwaiter().GetResult();
+        
+        if (!response.IsValidResponse)
+        {
+            throw new Exception($"Failed to delete annotation: {response.ElasticsearchServerError}");
+        }
     }
 
     private Song? JsonAnnotationToSong(JsonElement json)
