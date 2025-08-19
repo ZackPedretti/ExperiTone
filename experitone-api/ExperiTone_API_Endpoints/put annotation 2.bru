@@ -1,0 +1,28 @@
+meta {
+  name: put annotation 2
+  type: http
+  seq: 7
+}
+
+put {
+  url: http://localhost:2570/annotation
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "videoId": "2Rkx6b5vFdQ",
+    "title": "HAKEN - Invasion (OFFICIAL VIDEO)",
+    "author": "InsideOutMusicTV",
+    "description": "HAKEN - Invasion (OFFICIAL VIDEO). Taken from the album \"Virus\", out June 19th, 2020.",
+    "duration": 405,
+    "details": {
+      "startTimeStamp": 26,
+      "endTimeStamp": 34,
+      "title": "Switched to 7/8",
+      "description": "Switched from 13/16 to 7/8.",
+      "authorId": "df2c682d-b6d7-449d-ab94-77baaacfef4c"
+    }
+  }
+}
