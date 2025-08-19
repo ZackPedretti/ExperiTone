@@ -181,6 +181,7 @@ public class ElasticSearchHandler : ISearchEngineHandler
     }
 
     public Song?[]? SearchSong(string query, int? offset, int? limit)
+    // TODO: Boosters
     {
         if (!_ready) throw new Exception("ElasticSearch is not ready");
 
