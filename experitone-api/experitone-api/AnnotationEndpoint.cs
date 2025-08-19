@@ -43,6 +43,7 @@ public static class AnnotationEndpoint
         
         app.MapDelete("/annotation", (Guid annotationId) =>
         {
+            //TODO: Auth verification
             try
             {
                 searchEngine.DeleteAnnotation(annotationId);
