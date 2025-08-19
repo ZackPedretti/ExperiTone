@@ -123,6 +123,9 @@ public class ElasticSearchHandler : ISearchEngineHandler
 
     public Song?[]? GetRecentlyAnnotatedSongs(int? offset, int? limit)
     {
+        
+        if (!_ready) throw new Exception("ElasticSearch is not ready");
+        
         var response = _client.SearchAsync<Annotation>(s => s
             .Indices(IndexName)
             .Size(0)
@@ -235,7 +238,7 @@ public class ElasticSearchHandler : ISearchEngineHandler
 
     public void DeleteAnnotation(Annotation annotation)
     {
-        if (!_ready) return;
+        if (!_ready) throw  new Exception("ElasticSearch is not ready");
         throw new NotImplementedException();
     }
 
