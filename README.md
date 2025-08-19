@@ -13,3 +13,9 @@ Tech stack:
 - Frontend: Web interface in Vue.js 3 with Vuetify 3
 - Backend: C# ASP.NET API
 - Search Engine: Elasticsearch
+
+API features :
+- Insert annotation
+- Fetch annotations of song (by video ID)
+- Full text search of songs
+- Fetch the most recently annotated songs
