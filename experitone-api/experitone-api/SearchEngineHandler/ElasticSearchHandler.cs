@@ -70,6 +70,8 @@ public class ElasticSearchHandler : ISearchEngineHandler
         InitializeIndex().GetAwaiter().GetResult();
     }
 
+    // TODO: Handle duplicates
+    // TODO: Fetch YouTube information from video ID instead of trusting the frontend
     public void PutAnnotation(Annotation annotation)
     {
         if (!_ready) return;
@@ -165,7 +167,7 @@ public class ElasticSearchHandler : ISearchEngineHandler
                 var topHitsAgg = bucket.Aggregations?.GetTopHits("most_recent_song");
                 var topHit = topHitsAgg?.Hits.Hits.FirstOrDefault();
 
-                return topHit?.Source is not JsonElement json ? null : AnnotationToSong(json);
+                return topHit?.Source is not JsonElement json ? null : JsonAnnotationToSong(json);
             })
             .Where(s => s != null)
             .ToArray();
@@ -225,7 +227,7 @@ public class ElasticSearchHandler : ISearchEngineHandler
         {
             var topHitsAgg = b.Aggregations?.GetTopHits("top_annotation");
             var topHit = topHitsAgg?.Hits.Hits.FirstOrDefault();
-            return topHit?.Source is not JsonElement json ? null : AnnotationToSong(json);
+            return topHit?.Source is not JsonElement json ? null : JsonAnnotationToSong(json);
         }).Where(s => s != null).ToArray();
         return songs;
     }
@@ -236,7 +238,7 @@ public class ElasticSearchHandler : ISearchEngineHandler
         throw new NotImplementedException();
     }
 
-    private Song? AnnotationToSong(JsonElement json)
+    private Song? JsonAnnotationToSong(JsonElement json)
     {
         var annotation = JsonSerializer.Deserialize<Annotation>(json.GetRawText(), _serializerOptions);
         return annotation == null
