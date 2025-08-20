@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using experitone_api.Entities;
 using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.QueryDsl;
 using Elastic.Transport;
 
 namespace experitone_api;
@@ -217,25 +218,23 @@ public class ElasticSearchHandler : ISearchEngineHandler
     }
 
     public Song?[]? SearchSong(string query, int? offset, int? limit)
-    // TODO: Boosters
     {
         if (!_ready) throw new Exception("ElasticSearch is not ready");
 
-        // TODO: Better search results using the total count of annotations for each
         var response = _client.SearchAsync<Annotation>(s => s
             .Indices(IndexName)
             .Size(0)
             .Query(q => q
                 .MultiMatch(m => m
                     .Query(query)
-                    .Fields(
-                        f => f.VideoId,
-                        f => f.Title,
-                        f => f.Author,
-                        f => f.Description,
-                        f => f.Details.Title,
-                        f => f.Details.Description
-                    )
+                    .Fields(new[]
+                    {
+                        "title^3",
+                        "author^2",
+                        "description^1.5",
+                        "details.title",
+                        "details.description"
+                    })
                 )
             )
             .Aggregations(aggregations => aggregations
