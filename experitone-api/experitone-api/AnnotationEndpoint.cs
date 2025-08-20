@@ -100,7 +100,15 @@ public static class AnnotationEndpoint
         
         app.MapGet("/most_annotated", (int? offset, int? limit) =>
             {
-                
+                try
+                {
+                    return searchEngine.GetMostAnnotatedSongs(offset, limit);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return [];
+                }
             })
             .WithName("GetMostAnnotatedSongs");
     }

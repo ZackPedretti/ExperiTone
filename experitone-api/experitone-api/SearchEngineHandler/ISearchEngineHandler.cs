@@ -8,7 +8,7 @@ public interface ISearchEngineHandler
     Annotation? GetAnnotation(Guid annotationId);
     Annotation[] GetAnnotationsOfSong(string videoId, int? offset, int? limit);
     Song?[]? GetRecentlyAnnotatedSongs(int? offset, int? limit);
-    Song[] GetMostAnnotatedSongs(int? offset, int? limit);
+    Song?[]? GetMostAnnotatedSongs(int? offset, int? limit);
     Song?[]? SearchSong(string query, int? offset, int? limit);
     void DeleteAnnotation(Guid annotationId);
 }

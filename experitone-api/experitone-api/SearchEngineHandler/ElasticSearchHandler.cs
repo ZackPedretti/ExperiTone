@@ -165,12 +165,12 @@ public class ElasticSearchHandler : ISearchEngineHandler
 
         var songs = response.Aggregations?.GetStringTerms("songs")
             ?.Buckets
-            .Select(bucket =>
+            .Select(b =>
             {
-                var topHitsAgg = bucket.Aggregations?.GetTopHits("most_recent_song");
+                var topHitsAgg = b.Aggregations?.GetTopHits("most_recent_song");
                 var topHit = topHitsAgg?.Hits.Hits.FirstOrDefault();
 
-                return topHit?.Source is not JsonElement json ? null : JsonAnnotationToSong(json);
+                return topHit?.Source is not JsonElement json ? null : JsonAnnotationToSong(json, (int)b.DocCount);
             })
             .Where(s => s != null)
             .ToArray();
@@ -178,9 +178,42 @@ public class ElasticSearchHandler : ISearchEngineHandler
         return songs;
     }
 
-    public Song[] GetMostAnnotatedSongs(int? offset, int? limit)
+    public Song?[]? GetMostAnnotatedSongs(int? offset, int? limit)
     {
-        throw new NotImplementedException();
+        if (!_ready) throw new Exception("ElasticSearch is not ready");
+        
+        var response = _client.SearchAsync<Annotation>(s => s
+            .Indices(IndexName)
+            .Size(0)
+            .Aggregations(aggregations => aggregations
+                .Add("songs", songAgg => songAgg
+                    .Terms(t => t
+                        .Field(f => f.VideoId)
+                        .Size((limit ?? 100) + (offset ?? 0))
+                        .Order(o => o
+                            .Add("_count", SortOrder.Desc)
+                        )
+                    ).Aggregations(sub => sub
+                        .Add("top_annotation", ta => ta
+                            .TopHits(th => th.Size(1))
+                        )
+                    )
+                )
+            )
+        ).GetAwaiter().GetResult();
+        
+        var songs = response.Aggregations?.GetStringTerms("songs")
+            ?.Buckets
+            .Skip(offset ?? 0)
+            .Take(limit ?? 100)
+            .Select(b =>
+            {
+                var topHitsAgg = b.Aggregations?.GetTopHits("top_annotation");
+                var topHit = topHitsAgg?.Hits.Hits.FirstOrDefault();
+                return topHit?.Source is not JsonElement json ? null : JsonAnnotationToSong(json, (int)b.DocCount);
+            }).Where(s => s != null).ToArray();
+
+        return songs;
     }
 
     public Song?[]? SearchSong(string query, int? offset, int? limit)
@@ -231,7 +264,7 @@ public class ElasticSearchHandler : ISearchEngineHandler
         {
             var topHitsAgg = b.Aggregations?.GetTopHits("top_annotation");
             var topHit = topHitsAgg?.Hits.Hits.FirstOrDefault();
-            return topHit?.Source is not JsonElement json ? null : JsonAnnotationToSong(json);
+            return topHit?.Source is not JsonElement json ? null : JsonAnnotationToSong(json, (int)b.DocCount);
         }).Where(s => s != null).ToArray();
         return songs;
     }
@@ -249,12 +282,12 @@ public class ElasticSearchHandler : ISearchEngineHandler
         }
     }
 
-    private Song? JsonAnnotationToSong(JsonElement json)
+    private Song? JsonAnnotationToSong(JsonElement json, int annotationCount)
     {
         var annotation = JsonSerializer.Deserialize<Annotation>(json.GetRawText(), _serializerOptions);
         return annotation == null
             ? null
             : new Song(annotation.VideoId, annotation.Title, annotation.Author, annotation.Description,
-                annotation.Duration);
+                annotation.Duration, annotationCount);
     }
 }
