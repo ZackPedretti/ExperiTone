@@ -1,8 +1,8 @@
 services:
-  experitone_api:
+  experitone-api:
     image: mcr.microsoft.com/dotnet/sdk:9.0
     restart: always
-    container_name: experitone_api
+    container_name: experitone-api
     ports:
       - "2570:2570"
     environment:
@@ -16,10 +16,25 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  experitone-app:
+    image: node:24.6.0
+    restart: always
+    container_name: experitone-app
+    ports:
+      - 3000:3000
+    volumes:
+      - ./experitone-app:/src
+      - /src/node_modules
+    working_dir: /src
+    command: sh -c "npm i && npm run dev"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:9.1.2
     restart: always
-    container_name: elasticsearch
+    container_name: experitone-elasticsearch
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
@@ -42,7 +57,7 @@ services:
   kibana:
     image: docker.elastic.co/kibana/kibana:9.1.2
     restart: always
-    container_name: kibana
+    container_name: experitone-kibana
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     ports:
@@ -53,17 +68,29 @@ services:
 
   postgres:
     image: postgres
+    container_name: experitone-postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: example
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_SUPERSECRET}
+      POSTGRES_DB: experitone-db
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
 
   adminer:
     image: adminer
+    container_name: experitone-adminer
     restart: always
     ports:
       - 8080:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 volumes:
   pgdata:
