@@ -4,5 +4,11 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   future: {
     compatibilityVersion: 4
-  }
+  },
+  modules: ['@prisma/nuxt'],
+  prisma: {
+    datasourceUrl: process.env.DATABASE_URL,
+    log: ['query', 'info', 'warn', 'error'],
+    errorFormat: 'pretty',
+  },
 })
