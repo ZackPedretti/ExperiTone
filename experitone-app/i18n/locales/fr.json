@@ -1,4 +1,9 @@
 {
+  "layout":  {
+    "searchbar": {
+      "placeholder": "Rechercher une musique..."
+    }
+  },
   "sign-in-form": {
     "title": "Se connecter",
     "email": "Adresse mail",
