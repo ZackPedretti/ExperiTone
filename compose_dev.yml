@@ -70,8 +70,6 @@ services:
     image: postgres
     container_name: experitone-postgres
     restart: always
-    ports:
-      - 5432:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${POSTGRES_SUPERSECRET}
@@ -89,7 +87,7 @@ services:
     container_name: experitone-adminer
     restart: always
     ports:
-      - 8080:8080
+      - 80:8080
     depends_on:
       postgres:
         condition: service_healthy

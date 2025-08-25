@@ -11,4 +11,19 @@ export default defineNuxtConfig({
     log: ['query', 'info', 'warn', 'error'],
     errorFormat: 'pretty',
   },
+  css: [
+    'vuetify/styles',
+    '@mdi/font/css/materialdesignicons.min.css',
+  ],
+  plugins: ['~/plugin/vuetify.ts'],
+  build: {
+    transpile: ['vuetify'],
+  },
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,
+      },
+    },
+  },
 })
