@@ -10,9 +10,10 @@ With ExperiTone, you ~~can~~ (will be able to):
 - Search and filter annotations across the whole database.
 
 Tech stack:
-- Frontend: Web interface in Vue.js 3 with Vuetify 3
-- Backend: C# ASP.NET API
+- Frontend: Web interface in Vue.js 3 in Nuxt 3 with Vuetify 3
+- Backend: C# ASP.NET API for annotation and song fetching, Nuxt 3 for authentication
 - Search Engine: Elasticsearch
+- Database: PostgreSQL + Prisma ORM
 
 API features :
 - Insert annotation
