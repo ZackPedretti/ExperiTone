@@ -1,0 +1,19 @@
+{
+  "sign-in-form": {
+    "title": "Se connecter",
+    "email": "Adresse mail",
+    "password": "Mot de passe",
+    "button-text": "Se connecter",
+    "no-account": "Vous n'avez pas de compte ? ",
+    "no-account-link": "Inscrivez-vous ici."
+  },
+  "sign-up-form": {
+    "title": "Créer un compte",
+    "email": "Adresse mail",
+    "password": "Mot de passe",
+    "name": "Nom d'utilisateur",
+    "button-text": "Créer un compte",
+    "has-account": "Vous avez déjà un compte ? ",
+    "has-account-link": "Connectez-vous ici."
+  }
+}

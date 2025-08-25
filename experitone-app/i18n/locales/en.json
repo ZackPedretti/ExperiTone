@@ -1,0 +1,19 @@
+{
+  "sign-in-form": {
+    "title": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "button-text": "Sign in",
+    "no-account": "Don't have an account? ",
+    "no-account-link": "Sign up"
+  },
+  "sign-up-form": {
+    "title": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "name": "Username",
+    "button-text": "Sign up",
+    "has-account": "Have an account? ",
+    "has-account-link": "Sign in."
+  }
+}

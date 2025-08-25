@@ -5,7 +5,21 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4
   },
-  modules: ['@prisma/nuxt'],
+  modules: ['@prisma/nuxt', '@nuxtjs/i18n'],
+  i18n: {
+    strategy: 'prefix',
+    defaultLocale: 'en',
+    locales: [
+      { code: 'en', name: 'English', file: 'en.json' },
+      { code: 'fr', name: 'French', file: 'fr.json' }
+    ],
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      alwaysRedirect: true,
+      fallbackLocale: 'en'
+    },
+  },
   prisma: {
     datasourceUrl: process.env.DATABASE_URL,
     log: ['query', 'info', 'warn', 'error'],

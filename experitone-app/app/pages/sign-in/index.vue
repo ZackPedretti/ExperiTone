@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { createAuthClient } from "better-auth/client"
 const authClient = createAuthClient()
+const { t } = useI18n()
 
 const email = ref("");
 const password = ref("");
@@ -19,13 +20,13 @@ async function signIn(): Promise<void> {
   <v-container class="fill-height d-flex justify-center align-center mt-6">
     <v-form>
       <v-card width="400" class="pa-6">
-        <v-card-title class="text-h5">Sign in</v-card-title>
+        <v-card-title class="text-h5">{{ t('sign-in-form.title')}}</v-card-title>
 
-        <v-text-field label="Email" v-model="email" outlined dense />
-        <v-text-field label="Password" v-model="password" type="password" outlined dense />
+        <v-text-field :label="t('sign-in-form.email')" v-model="email" outlined dense />
+        <v-text-field :label="t('sign-in-form.password')" v-model="password" type="password" outlined dense />
 
-        <v-btn color="primary" class="mt-4" block @click="signIn">Sign in</v-btn>
-        <v-card-text>No account? Sign up <a href="/sign-up">here</a></v-card-text>
+        <v-btn color="primary" class="mt-4" block @click="signIn">{{ t('sign-in-form.button-text') }}</v-btn>
+        <v-card-text>{{ t('sign-in-form.no-account') }}<NuxtLink href="sign-up"> {{ t('sign-in-form.no-account-link') }}</NuxtLink></v-card-text>
       </v-card>
     </v-form>
   </v-container>
