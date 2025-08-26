@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
         description: data.items[0].snippet.description as string,
         duration: iso8601ToSeconds(data.items[0].contentDetails.duration),
         annotationCount: 0,
-        lastUpdated: (new Date()),
+        lastUpdated: (new Date()).toISOString(),
     }
     return song
 })
