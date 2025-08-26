@@ -7,7 +7,7 @@ const {data: session} = await authClient.useSession(useFetch);
 </script>
 
 <template>
-  <v-app-bar app color="primary" class="position-relative">
+  <v-app-bar app color="primary" class="position-relative position-sticky">
     <template v-slot:prepend>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
     </template>
