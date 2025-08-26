@@ -14,6 +14,7 @@ Tech stack:
 - Backend: C# ASP.NET API for annotation and song fetching, Nuxt 3 for authentication
 - Search Engine: Elasticsearch
 - Database: PostgreSQL + Prisma ORM
+- Auth: BetterAuth
 
 API features :
 - Insert annotation
