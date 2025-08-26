@@ -8,6 +8,24 @@
       "settings": "Paramètres"
     }
   },
+  "song-card": {
+    "annotation-count": "Aucune annotation | 1 annotation | {n} annotations",
+    "created-at": "Il y a 1 {unit} | Il y a {n} {unit}"
+  },
+  "time-units": {
+    "year": "an",
+    "month": "mois",
+    "week": "semaine",
+    "day": "jour",
+    "hour": "heure",
+    "minute": "minute",
+    "second": "seconde"
+  },
+  "homepage": {
+    "recently-annotated": {
+      "title": "Musiques récemment annotées"
+    }
+  },
   "sign-in-form": {
     "title": "Se connecter",
     "email": "Adresse mail",

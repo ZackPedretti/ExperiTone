@@ -1,13 +1,31 @@
 {
-  "layout":  {
-  "searchbar": {
-    "placeholder": "Search a song..."
-  },
+  "layout": {
+    "searchbar": {
+      "placeholder": "Search a song..."
+    },
     "user-menu": {
       "sign-out": "Sign out",
       "settings": "Settings"
     }
-},
+  },
+  "song-card": {
+    "annotation-count": "No annotation | 1 annotation | {n} annotations",
+    "created-at": "1 {unit} ago | {n} {unit}s ago"
+  },
+  "time-units": {
+    "year": "year",
+    "month": "month",
+    "week": "week",
+    "day": "day",
+    "hour": "hour",
+    "minute": "minute",
+    "second": "second"
+  },
+  "homepage": {
+    "recently-annotated": {
+      "title": "Recently annotated songs"
+    }
+  },
   "sign-in-form": {
     "title": "Sign in",
     "email": "Email",
