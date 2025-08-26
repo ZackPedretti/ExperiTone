@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Appbar />
-    <v-main>
+    <v-main class="pa-0">
       <NuxtPage />
     </v-main>
   </v-app>

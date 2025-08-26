@@ -2,6 +2,10 @@
   "layout":  {
     "searchbar": {
       "placeholder": "Rechercher une musique..."
+    },
+    "user-menu": {
+      "sign-out": "Se déconnecter",
+      "settings": "Paramètres"
     }
   },
   "sign-in-form": {

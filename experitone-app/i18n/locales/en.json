@@ -2,7 +2,11 @@
   "layout":  {
   "searchbar": {
     "placeholder": "Search a song..."
-  }
+  },
+    "user-menu": {
+      "sign-out": "Sign out",
+      "settings": "Settings"
+    }
 },
   "sign-in-form": {
     "title": "Sign in",

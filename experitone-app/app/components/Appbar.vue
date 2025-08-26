@@ -21,8 +21,8 @@ const {data: session} = await authClient.useSession(useFetch);
     <Searchbar />
 
     <template v-slot:append>
-      <AccountMenu v-if="session" />
-      <NuxtLink v-else href="sign-in">
+      <AccountMenu v-if="session"/>
+      <NuxtLink v-else href="sign-in" class="mr-4">
         <v-btn flat color="white">
           Sign in
         </v-btn>

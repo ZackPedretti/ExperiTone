@@ -2,6 +2,7 @@
 import { createAuthClient } from "better-auth/client"
 const authClient = createAuthClient()
 const { t } = useI18n()
+const router = useRouter()
 
 const email = ref("");
 const password = ref("");
@@ -12,6 +13,9 @@ async function signIn(): Promise<void> {
     password: password.value,
   })
   console.log(response)
+  if (response?.data) {
+    await router.push("/")
+  }
 }
 
 </script>
