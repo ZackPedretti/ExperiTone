@@ -34,16 +34,23 @@ function getTimeAgo(date: Date): { n: number, unit: string } {
 </script>
 
 <template>
-  <v-card flat class="w-75 mx-auto main-card">
-    <v-row justify="center">
-      <v-col cols="auto">
+  <v-card flat class="w-75 mx-auto main-card h-auto">
+    <v-row justify="center" align="start">
+      <v-col
+          cols="12"
+          sm="8"
+          md="6"
+          lg="4"
+          class="d-flex justify-center"
+      >
         <SongThumbnail :video-id="song.videoId" />
       </v-col>
-      <v-col cols="auto">
-        <v-card-title class="pb-0 text-h5">{{ song.title }}</v-card-title>
-        <v-card-subtitle>{{ t("song-card.annotation-count", {n: song.annotationCount}) }} - {{ t("song-card.created-at", getTimeAgo(new Date(song.lastUpdated)))}}</v-card-subtitle>
-        <v-card-title class="pb-0 text-h6">{{ song.author }}</v-card-title>
-        <v-card-text>{{ song.description }}</v-card-text>
+
+      <v-col cols="12" sm="8" md="6" lg="7">
+        <v-card-text class="pb-0 text-h5 text">{{ song.title }}</v-card-text>
+        <v-card-subtitle class="text">{{ t("song-card.annotation-count", {n: song.annotationCount}) }} - {{ t("song-card.created-at", getTimeAgo(new Date(song.lastUpdated)))}}</v-card-subtitle>
+        <v-card-text class="pb-0 text-h6 text">{{ song.author }}</v-card-text>
+        <v-card-text class="text py-0">{{ song.description }}</v-card-text>
       </v-col>
     </v-row>
   </v-card>
@@ -52,5 +59,12 @@ function getTimeAgo(date: Date): { n: number, unit: string } {
 <style scoped>
 .main-card {
   height: 600px;
+}
+.text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* show max 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

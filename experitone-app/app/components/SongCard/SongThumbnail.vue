@@ -9,14 +9,19 @@ const thumbnailURL = `https://img.youtube.com/vi/${props.videoId}/maxresdefault.
 <template>
   <v-img
       :src="thumbnailURL"
-      width="500px"
+      width="100%"
+      max-width="500px"
+      min-width="200px"
       aspect-ratio="16/9"
       class="rounded-lg"
   >
-    <template #placeholder>
+
+  <template #placeholder>
       <v-skeleton-loader
           type="image"
-          width="500px"
+          width="100%"
+          max-width="500px"
+          min-width="200px"
           aspect-ratio="16/9"/>
     </template>
   </v-img>

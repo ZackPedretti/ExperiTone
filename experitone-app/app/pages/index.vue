@@ -8,9 +8,12 @@ const recentlyAnnotatedSongs = await $fetch<Song[]>("/api/annotations/get-recent
 
 <template>
   <h1 class="mb-6 w-75 mx-auto">{{ t("homepage.recently-annotated.title") }}</h1>
-  <SongCard v-for="song in recentlyAnnotatedSongs" :key="song.videoId" :song="song" />
+  <v-list>
+    <v-list-item v-for="song in recentlyAnnotatedSongs" :key="song.videoId" class="my-3">
+      <SongCard :song="song" />
+    </v-list-item>
+  </v-list>
 </template>
 
 <style scoped>
-
 </style>
