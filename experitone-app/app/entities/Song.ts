@@ -5,5 +5,5 @@ export type Song = {
     description: string;
     duration: number;
     annotationCount: number;
-    lastUpdated: string;
+    lastUpdated: number;
 }

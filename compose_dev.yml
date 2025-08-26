@@ -27,8 +27,6 @@ services:
       - /src/node_modules
     working_dir: /src
     command: sh -c "npm i && npm run dev"
-    environment:
-      - NODE_OPTIONS=--watch
     depends_on:
       postgres:
         condition: service_healthy
