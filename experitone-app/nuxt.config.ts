@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4
   },
-  modules: ['@prisma/nuxt', '@nuxtjs/i18n'],
+  modules: ['@prisma/nuxt', '@nuxtjs/i18n', '@pinia/nuxt'],
   i18n: {
     strategy: 'prefix',
     defaultLocale: 'en',
