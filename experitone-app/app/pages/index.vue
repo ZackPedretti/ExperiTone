@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {Song} from "~/entities/Song";
 
-const { t } = useI18n()
+const {t} = useI18n()
 
 const recentlyAnnotatedSongs = await $fetch<Song[]>("/api/annotations/get-recent")
 </script>
@@ -9,7 +9,13 @@ const recentlyAnnotatedSongs = await $fetch<Song[]>("/api/annotations/get-recent
 <template>
   <h1 class="mb-6 w-75 mx-auto">{{ t("homepage.recently-annotated.title") }}</h1>
   <v-list>
-    <v-list-item v-for="song in recentlyAnnotatedSongs" :key="song.videoId" class="my-3">
+    <v-list-item
+        v-for="song in recentlyAnnotatedSongs"
+        :key="song.videoId"
+        :to="`/song/${song.videoId}`"
+        class="my-3 py-4"
+        link
+    >
       <SongCard :song="song" />
     </v-list-item>
   </v-list>
