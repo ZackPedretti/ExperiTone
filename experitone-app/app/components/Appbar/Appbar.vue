@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {authClient} from "~~/lib/authClient";
-import Searchbar from "~/components/Searchbar.vue";
-import AccountMenu from "~/components/AccountMenu.vue";
+import Searchbar from "~/components/Appbar/Searchbar.vue";
+import AccountMenu from "~/components/Appbar/AccountMenu.vue";
 
 const {data: session} = await authClient.useSession(useFetch);
 </script>
@@ -13,7 +13,7 @@ const {data: session} = await authClient.useSession(useFetch);
     </template>
 
     <v-app-bar-title>
-      <NuxtLink to="/" class="text-white text-decoration-none">
+      <NuxtLink to="/public" class="text-white text-decoration-none">
         ExperiTone
       </NuxtLink>
     </v-app-bar-title>
