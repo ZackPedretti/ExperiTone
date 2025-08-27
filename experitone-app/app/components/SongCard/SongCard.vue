@@ -34,7 +34,7 @@ function getTimeAgo(date: Date): { n: number, unit: string } {
 </script>
 
 <template>
-  <v-card flat class="w-75 mx-auto main-card h-auto">
+  <v-card color="transparent" flat class="w-75 mx-auto main-card h-auto">
     <v-row justify="center" align="start">
       <v-col
           cols="12"
