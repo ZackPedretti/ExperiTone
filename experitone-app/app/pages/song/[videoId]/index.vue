@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Annotation } from "~/entities/Annotation";
+import type {Annotation} from "~/entities/Annotation";
 
 const route = useRoute()
 const videoId = route.params.videoId as string
@@ -12,9 +12,11 @@ onMounted(async () => {
 </script>
 
 <template>
-<p v-for="annotation in annotations" :key="annotation.annotationId">{{ annotation }}</p>
+  <p v-for="annotation in annotations" :key="annotation.annotationId">{{ annotation }}</p>
+  <ClientOnly>
+    <YoutubePlayer :videoId="videoId"/>
+  </ClientOnly>
 </template>
 
 <style scoped>
-
 </style>
