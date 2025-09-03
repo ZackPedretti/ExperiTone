@@ -42,5 +42,8 @@
     "button-text": "Sign up",
     "has-account": "Have an account? ",
     "has-account-link": "Sign in."
+  },
+  "song-page": {
+    "add-btn": "Add annotation"
   }
 }

@@ -42,5 +42,8 @@
     "button-text": "Créer un compte",
     "has-account": "Vous avez déjà un compte ? ",
     "has-account-link": "Connectez-vous ici."
+  },
+  "song-page": {
+    "add-btn": "Ajouter une annotation"
   }
 }

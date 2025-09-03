@@ -37,11 +37,8 @@ onMounted(() => {
 
 <style scoped>
 .youtube-player-wrapper {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-  width: 320px;
-  height: 180px;
+  width: 50%;
+  aspect-ratio: 16/9;
   z-index: 9999;
   border-radius: 8px;
   overflow: hidden;
