@@ -29,7 +29,7 @@ async function signUp(): Promise<void> {
         <v-text-field :label="t('sign-up-form.password')" v-model="password" type="password" outlined dense />
 
         <v-btn color="primary" class="mt-4" block @click="signUp">{{ t('sign-up-form.button-text') }}</v-btn>
-        <v-card-text>{{ t('sign-up-form.has-account') }}<NuxtLink href="sign-in">{{ t('sign-up-form.has-account-link') }}</NuxtLink></v-card-text>
+        <v-card-text>{{ t('sign-up-form.has-account') }}<NuxtLink to="/sign-in">{{ t('sign-up-form.has-account-link') }}</NuxtLink></v-card-text>
       </v-card>
     </v-form>
   </v-container>

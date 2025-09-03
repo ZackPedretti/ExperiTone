@@ -13,7 +13,7 @@ const {data: session} = await authClient.useSession(useFetch);
     </template>
 
     <v-app-bar-title>
-      <NuxtLink to="/public" class="text-white text-decoration-none">
+      <NuxtLink to="/" class="text-white text-decoration-none">
         ExperiTone
       </NuxtLink>
     </v-app-bar-title>
