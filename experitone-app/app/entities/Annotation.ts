@@ -1,7 +1,7 @@
 export type Annotation = {
     annotationId: string;
-    startTimeStamp: number;
-    endTimeStamp: number | null;
+    startTimestamp: number;
+    endTimestamp: number | null;
     title: string;
     description: string | null;
     authorId: string;
