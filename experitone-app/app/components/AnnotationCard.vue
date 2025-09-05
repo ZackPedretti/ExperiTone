@@ -10,6 +10,12 @@ const props = defineProps<{
 
 const author = await $fetch<{name: string, image: string}>(`/api/users/get-by-id?userId=${props.annotation.authorId}`)
 const defaultPicture = "/img/default.png"
+
+const { player } = storeToRefs(useYoutubePlayerStore());
+
+function playFromAnnotationStart(){
+  player.value?.seekTo(props.annotation.startTimestamp)
+}
 </script>
 
 <template>
@@ -40,7 +46,7 @@ const defaultPicture = "/img/default.png"
       <v-card-text>{{ author.name }}</v-card-text>
     </v-row>
     <v-card-actions>
-      <v-btn class="text-body-2" prepend-icon="mdi-play"> {{ t('song-page.annotation-card.play-btn') }}</v-btn>
+      <v-btn class="text-body-2" prepend-icon="mdi-play" @click="playFromAnnotationStart"> {{ t('song-page.annotation-card.play-btn') }}</v-btn>
     </v-card-actions>
   </v-card>
 </template>

@@ -9,7 +9,7 @@ import { ref, onMounted } from 'vue'
 
 const { videoId } = defineProps<{ videoId: string }>()
 const playerContainer = ref<HTMLDivElement>()
-let player: YT.Player | null = null
+const { player } = storeToRefs(useYoutubePlayerStore())
 
 onMounted(() => {
   if (!window.YT) {
@@ -21,7 +21,7 @@ onMounted(() => {
   const interval = setInterval(() => {
     if (window.YT && window.YT.Player) {
       clearInterval(interval)
-      player = new window.YT.Player(playerContainer.value!, {
+      player.value = new window.YT.Player(playerContainer.value!, {
         videoId,
         width: '100%',
         height: '100%',

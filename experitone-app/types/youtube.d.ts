@@ -7,6 +7,7 @@ declare namespace YT {
         constructor(elementId: string | HTMLElement, options: any);
         playVideo(): void;
         pauseVideo(): void;
+        seekTo(seconds: number, allowSeekAhead?: boolean): void;
     }
 
     interface PlayerEvent {

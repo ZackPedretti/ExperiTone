@@ -1,7 +1,10 @@
-import type { Player } from '@vue-youtube/component'
-
 export const useYoutubePlayerStore = defineStore('youtube-player', () => {
-  const player = ref<Player | null>(null)
+  const player = ref<YT.Player | null>(null)
+
+
+  watch(player, () => {
+    console.log(player.value)
+  })
 
   return { player }
 })
