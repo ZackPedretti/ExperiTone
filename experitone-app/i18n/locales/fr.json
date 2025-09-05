@@ -44,6 +44,9 @@
     "has-account-link": "Connectez-vous ici."
   },
   "song-page": {
-    "add-btn": "Ajouter une annotation"
+    "add-btn": "Ajouter une annotation",
+    "annotation-card": {
+      "play-btn": "Jouer à partir de cette annotation"
+    }
   }
 }
