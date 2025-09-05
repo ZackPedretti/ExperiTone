@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type {Annotation} from "~/entities/Annotation";
+import AnnotationCard from "~/components/AnnotationCard.vue";
 
 const route = useRoute()
 const videoId = route.params.videoId as string
@@ -24,7 +25,7 @@ onMounted(async () => {
               v-for="annotation in annotations"
               :key="annotation.annotationId"
           >
-            <p>{{ annotation }}</p>
+            <AnnotationCard :annotation="annotation" />
           </v-list-item>
         </v-list>
         <v-btn prepend-icon="mdi-plus" color="primary" flat>{{ t("song-page.add-btn") }}</v-btn>
