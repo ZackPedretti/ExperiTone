@@ -10,7 +10,7 @@ const annotations = ref<Annotation[]>([])
 const { t } = useI18n();
 
 onMounted(async () => {
-  annotations.value = await $fetch<Annotation[]>(`/api/annotations/get-annotations-of-song?videoId=${videoId}`)
+  annotations.value = (await $fetch<Annotation[]>(`/api/annotations/get-annotations-of-song?videoId=${videoId}`)).sort((a, b) => a.startTimestamp - b.startTimestamp)
 })
 </script>
 
@@ -22,10 +22,11 @@ onMounted(async () => {
       <div class="inner-annotation-container">
         <v-list>
           <v-list-item
-              v-for="annotation in annotations"
+              v-for="(annotation, index) in annotations"
               :key="annotation.annotationId"
           >
-            <AnnotationCard :annotation="annotation" />
+            <AnnotationCard :annotation="annotation" class="pa-2" />
+            <v-divider v-if="index < annotations.length -1" />
           </v-list-item>
         </v-list>
         <v-btn prepend-icon="mdi-plus" color="primary" flat>{{ t("song-page.add-btn") }}</v-btn>
