@@ -16,15 +16,16 @@ const { player } = storeToRefs(useYoutubePlayerStore());
 function playFromAnnotationStart(){
   player.value?.seekTo(props.annotation.startTimestamp)
 }
+
 </script>
 
 <template>
   <v-card flat>
     <v-row class="w-100" align="center" justify="space-between">
-      <v-col class="pb-0">
+      <v-col class="pa-0" cols="auto">
         <v-card-title class="pb-0">{{ annotation.title }}</v-card-title>
       </v-col>
-      <v-col>
+      <v-col class="pa-0" cols="auto">
         <v-row align="center">
           <v-btn class="rounded-full mx-2" flat>
             <v-icon>mdi-thumb-up</v-icon>
