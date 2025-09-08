@@ -1,4 +1,4 @@
-import type {Annotation} from "~/entities/Annotation";
+import type {Annotation} from "~~/entities/Annotation";
 
 export type ElasticAnnotation = {
     videoId: string;

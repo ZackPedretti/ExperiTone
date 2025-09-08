@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {Song} from "~/entities/Song";
+import type {Song} from "~~/entities/Song";
 
 const {t} = useI18n()
 
@@ -16,10 +16,7 @@ const recentlyAnnotatedSongs = await $fetch<Song[]>("/api/annotations/get-recent
         class="my-3 py-4"
         link
     >
-      <SongCard :song="song" />
+      <SongCard :song="song"/>
     </v-list-item>
   </v-list>
 </template>
-
-<style scoped>
-</style>

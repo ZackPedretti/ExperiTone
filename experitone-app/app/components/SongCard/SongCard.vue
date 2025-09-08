@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Song } from "~/entities/Song";
+import type { Song } from "~~/entities/Song";
 import SongThumbnail from "~/components/SongCard/SongThumbnail.vue";
 
 defineProps<{

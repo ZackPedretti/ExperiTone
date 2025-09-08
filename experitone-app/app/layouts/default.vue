@@ -6,7 +6,7 @@
     </v-main>
   </v-app>
 </template>
-<style scoped>
+<style>
   .main-content {
     width: 90%;
     margin: 0 auto;

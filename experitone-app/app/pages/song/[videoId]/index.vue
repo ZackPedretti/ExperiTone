@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {Annotation} from "~/entities/Annotation";
+import type {Annotation} from "~~/entities/Annotation";
 import AnnotationCard from "~/components/AnnotationCard.vue";
 
 const route = useRoute()

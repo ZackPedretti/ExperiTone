@@ -28,8 +28,9 @@ export default defineNuxtConfig({
   css: [
     'vuetify/styles',
     '@mdi/font/css/materialdesignicons.min.css',
+    '~/assets/scss/main.scss'
   ],
-  plugins: ['~/plugin/vuetify.ts'],
+  plugins: ['~/plugins/vuetify.ts'],
   build: {
     transpile: ['vuetify'],
   },
@@ -38,6 +39,16 @@ export default defineNuxtConfig({
       watch: {
         usePolling: true,
       },
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `
+            @use "~/assets/scss/mixins" as *;
+            @use "~/assets/scss/variables" as *;
+          `
+        }
+      }
     },
   },
 })

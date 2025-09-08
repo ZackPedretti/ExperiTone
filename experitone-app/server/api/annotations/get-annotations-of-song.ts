@@ -1,4 +1,4 @@
-import { ElasticAnnotation } from "~/entities/ElasticAnnotation";
+import { ElasticAnnotation } from "~~/entities/ElasticAnnotation";
 
 export default defineEventHandler(async (event) => {
     const videoId = getQuery(event).videoId as string;

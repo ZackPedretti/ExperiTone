@@ -1,4 +1,4 @@
-import { Song } from "~/entities/Song";
+import { Song } from "~~/entities/Song";
 
 export default defineEventHandler(async (event) => {
     const videoId = getQuery(event).videoId as string;
