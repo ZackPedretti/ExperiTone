@@ -10,7 +10,8 @@ const annotations = ref<Annotation[]>([])
 const { t } = useI18n();
 
 onMounted(async () => {
-  annotations.value = (await $fetch<Annotation[]>(`/api/annotations/get-annotations-of-song?videoId=${videoId}`)).sort((a, b) => a.startTimestamp - b.startTimestamp)
+  console.log(await $fetch<Annotation[]>(`/api/annotations/${videoId}`))
+  annotations.value = (await $fetch<Annotation[]>(`/api/annotations/${videoId}`)).sort((a, b) => a.startTimestamp - b.startTimestamp)
 })
 </script>
 

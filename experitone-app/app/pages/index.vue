@@ -3,7 +3,7 @@ import type {Song} from "~~/entities/Song";
 
 const {t} = useI18n()
 
-const recentlyAnnotatedSongs = await $fetch<Song[]>("/api/annotations/get-recent")
+const recentlyAnnotatedSongs = await $fetch<Song[]>("/api/annotations/recent")
 </script>
 
 <template>
