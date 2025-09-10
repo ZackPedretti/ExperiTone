@@ -1,7 +1,11 @@
 import { Song } from "~~/entities/Song";
 
 export default defineEventHandler(async (event) => {
-    const videoId = getQuery(event).videoId as string;
+    const videoId = event.context.params?.videoId
+
+    if (!videoId) {
+        return null;
+    }
 
     const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=${videoId}&key=${process.env.YOUTUBE_API_KEY}`);
     const data = await response.json()
