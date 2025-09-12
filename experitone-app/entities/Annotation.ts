@@ -1,10 +1,16 @@
+import type {ElasticAnnotation} from "~~/entities/ElasticAnnotation";
+
 export type Annotation = {
-    annotationId: string;
+    annotationId: string | undefined;
     startTimestamp: number;
     endTimestamp: number | null;
     title: string;
-    description: string | null;
-    authorId: string;
+    description: string | undefined;
+    authorId: string | undefined;
     createdAt: string;
-    votes: number;
+    votes: number | undefined;
+}
+
+export function annotationFromElasticAnnotation(ea: ElasticAnnotation): Annotation {
+    return ea.details;
 }

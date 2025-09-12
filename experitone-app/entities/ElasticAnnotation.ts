@@ -6,7 +6,7 @@ export type ElasticAnnotation = {
     author: string;
     description: string;
     duration: number;
-    annotationCount: number;
+    annotationCount: number | undefined;
     lastUpdated: string;
     details: Annotation;
 }

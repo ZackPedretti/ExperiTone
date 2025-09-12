@@ -9,6 +9,19 @@ const annotations = ref<Annotation[]>([])
 
 const { t } = useI18n();
 
+const exampleAnnotation: Annotation = {
+  startTimestamp: 128,
+  title: 'TEST ANNOTATION',
+  description: 'THIS IS A TEST',
+};
+
+function putAnnotation(annotation: Annotation) {
+  $fetch(`/api/annotations/${videoId}`, {
+    method: 'PUT',
+    body: annotation,
+  })
+}
+
 onMounted(async () => {
   console.log(await $fetch<Annotation[]>(`/api/annotations/${videoId}`))
   annotations.value = (await $fetch<Annotation[]>(`/api/annotations/${videoId}`)).sort((a, b) => a.startTimestamp - b.startTimestamp)
@@ -23,14 +36,14 @@ onMounted(async () => {
       <div class="inner-annotation-container">
         <v-list>
           <v-list-item
-              v-for="(annotation, index) in annotations"
+              v-for="(annotation, index) in annotations.filter((a: Annotation) => a.annotationId)"
               :key="annotation.annotationId"
           >
             <AnnotationCard :annotation="annotation" class="pa-2" />
             <v-divider v-if="index < annotations.length -1" />
           </v-list-item>
         </v-list>
-        <v-btn prepend-icon="mdi-plus" color="primary" flat>{{ t("song-page.add-btn") }}</v-btn>
+        <v-btn prepend-icon="mdi-plus" color="primary" flat @click="putAnnotation(exampleAnnotation)">{{ t("song-page.add-btn") }}</v-btn>
       </div>
     </div>
   </div>

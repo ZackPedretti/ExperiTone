@@ -1,6 +1,7 @@
 import {auth} from "../../lib/auth";
 import {Annotation} from "~~/entities/Annotation";
 import {Song} from "~~/entities/Song";
+import {ElasticAnnotation} from "~~/entities/ElasticAnnotation";
 
 export default defineEventHandler(async (event) => {
     const session = await auth.api.getSession(event);
@@ -14,19 +15,17 @@ export default defineEventHandler(async (event) => {
 
     const videoId = event.context.params?.videoId
 
-    let song;
-    const localSong = await $fetch<Song[]>(`/api/annotations/${videoId}`);
-    if (!localSong || !localSong.length) {
-        song = await $fetch<Song>(`/api/youtube/${videoId}`);
-    }
-    else {
-        song = localSong[-1];
-    }
+    const song = await $fetch<Song>(`/api/song/${videoId}`);
 
-    const body = {
+    const body: ElasticAnnotation = {
         ...song,
-        ...(await readBody<Annotation>(event)),
-    } as Annotation;
+        details: {
+            ...(await readBody<Annotation>(event)),
+            authorId: session.user.id,
+        }
+    };
+
+    console.log(body);
 
     return await $fetch("http://experitone-api:2570/annotation", {
         method: "PUT",
