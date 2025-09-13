@@ -47,6 +47,14 @@
     "add-btn": "Add annotation",
     "annotation-card": {
       "play-btn": "Play from annotation"
+    },
+    "new-annotation-card": {
+      "title": "Title",
+      "description": "Description",
+      "start": "Start timestamp",
+      "has-end": "This annotation has an end timestamp",
+      "end": "End timestamp",
+      "create": "Create annotation"
     }
   }
 }

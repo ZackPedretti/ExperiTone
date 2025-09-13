@@ -1,27 +1,25 @@
 <script setup lang="ts">
 import type {Annotation} from "~~/entities/Annotation";
 import AnnotationCard from "~/components/AnnotationCard.vue";
-import type {PutAnnotation} from "~~/entities/PutAnnotation";
+import {newPutAnnotation, type PutAnnotation} from "~~/entities/PutAnnotation";
+import NewAnnotationCard from "~/components/NewAnnotationCard.vue";
 
 const route = useRoute()
 const videoId = route.params.videoId as string
-
 const annotations = ref<Annotation[]>([])
+const newAnnotations = ref<PutAnnotation[]>([])
 
-const { t } = useI18n();
-
-const exampleAnnotation: PutAnnotation = {
-  startTimestamp: 128,
-  title: 'TEST ANNOTATION',
-  description: 'THIS IS A TEST',
-  endTimestamp: undefined,
-};
+const {t} = useI18n();
 
 function putAnnotation(annotation: PutAnnotation) {
   $fetch(`/api/annotations/${videoId}`, {
     method: 'PUT',
     body: annotation,
   })
+}
+
+function openNewAnnotation() {
+  newAnnotations.value.push(newPutAnnotation(undefined))
 }
 
 onMounted(async () => {
@@ -41,11 +39,21 @@ onMounted(async () => {
               v-for="(annotation, index) in annotations"
               :key="annotation.annotationId"
           >
-            <AnnotationCard :annotation="annotation" class="pa-2" />
-            <v-divider v-if="index < annotations.length -1" />
+            <AnnotationCard :annotation="annotation" class="pa-2"/>
+            <v-divider v-if="index < annotations.length -1"/>
+          </v-list-item>
+          <v-list-item
+              v-for="(newAnnotation, index) in newAnnotations"
+              :key="'new' + index"
+              class="new-annotation">
+            <v-divider/>
+            <NewAnnotationCard :annotation="newAnnotation" class="pa-2"/>
           </v-list-item>
         </v-list>
-        <v-btn prepend-icon="mdi-plus" color="primary" flat @click="putAnnotation(exampleAnnotation)">{{ t("song-page.add-btn") }}</v-btn>
+        <v-btn prepend-icon="mdi-plus" color="primary" flat @click="openNewAnnotation">{{
+            t("song-page.add-btn")
+          }}
+        </v-btn>
       </div>
     </div>
   </div>
@@ -79,5 +87,8 @@ onMounted(async () => {
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
+}
+
+.new-annotation {
 }
 </style>

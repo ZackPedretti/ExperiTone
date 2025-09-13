@@ -71,7 +71,7 @@ function formatSecondsToMinutes(seconds: number): string {
 
 <style scoped lang="scss">
 .timestamp-container {
-  width: 40px;
+  width: 50px;
 }
 
 .timestamp {

@@ -47,6 +47,14 @@
     "add-btn": "Ajouter une annotation",
     "annotation-card": {
       "play-btn": "Jouer à partir de cette annotation"
+    },
+    "new-annotation-card": {
+      "title": "Titre",
+      "description": "Description",
+      "start": "Point de début",
+      "has-end": "Cette annotation possède un point de fin",
+      "end": "Point de fin",
+      "create": "Publier l'annotation"
     }
   }
 }
