@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {Annotation} from "~~/entities/Annotation";
 import AnnotationCard from "~/components/AnnotationCard.vue";
+import type {PutAnnotation} from "~~/entities/PutAnnotation";
 
 const route = useRoute()
 const videoId = route.params.videoId as string
@@ -9,13 +10,14 @@ const annotations = ref<Annotation[]>([])
 
 const { t } = useI18n();
 
-const exampleAnnotation: Annotation = {
+const exampleAnnotation: PutAnnotation = {
   startTimestamp: 128,
   title: 'TEST ANNOTATION',
   description: 'THIS IS A TEST',
+  endTimestamp: undefined,
 };
 
-function putAnnotation(annotation: Annotation) {
+function putAnnotation(annotation: PutAnnotation) {
   $fetch(`/api/annotations/${videoId}`, {
     method: 'PUT',
     body: annotation,
@@ -36,7 +38,7 @@ onMounted(async () => {
       <div class="inner-annotation-container">
         <v-list>
           <v-list-item
-              v-for="(annotation, index) in annotations.filter((a: Annotation) => a.annotationId)"
+              v-for="(annotation, index) in annotations"
               :key="annotation.annotationId"
           >
             <AnnotationCard :annotation="annotation" class="pa-2" />

@@ -1,14 +1,15 @@
 import type {ElasticAnnotation} from "~~/entities/ElasticAnnotation";
+import assert from "node:assert";
 
 export type Annotation = {
-    annotationId: string | undefined;
+    annotationId: string;
     startTimestamp: number;
     endTimestamp: number | null;
     title: string;
     description: string | undefined;
-    authorId: string | undefined;
+    authorId: string;
     createdAt: string;
-    votes: number | undefined;
+    votes: number;
 }
 
 export function annotationFromElasticAnnotation(ea: ElasticAnnotation): Annotation {

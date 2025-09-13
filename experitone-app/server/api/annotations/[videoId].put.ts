@@ -1,7 +1,8 @@
 import {auth} from "../../lib/auth";
-import {Annotation} from "~~/entities/Annotation";
+import {PutAnnotation} from "~~/entities/PutAnnotation";
 import {Song} from "~~/entities/Song";
 import {ElasticAnnotation} from "~~/entities/ElasticAnnotation";
+import {PutElasticAnnotation} from "~~/entities/PutElasticAnnotation";
 
 export default defineEventHandler(async (event) => {
     const session = await auth.api.getSession(event);
@@ -17,10 +18,10 @@ export default defineEventHandler(async (event) => {
 
     const song = await $fetch<Song>(`/api/song/${videoId}`);
 
-    const body: ElasticAnnotation = {
+    const body: PutElasticAnnotation = {
         ...song,
         details: {
-            ...(await readBody<Annotation>(event)),
+            ...(await readBody<PutAnnotation>(event)),
             authorId: session.user.id,
         }
     };
